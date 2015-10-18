@@ -33,18 +33,13 @@ bookingApp.config(['$httpProvider', function($httpProvider) {
 ]);
 
 bookingApp.constant('ApiEndpoint', {
-  url: 'https://maps.googleapis.com/maps/api'
+  url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?',
+  selected_location_coordinates:'12.971599,77.594563',
+  selected_radius:'50000',
+  selected_types:'movie_theater',
+  key:'AIzaSyB_MWaVyfMisy4elEy-vCjqTQYpbikFw1A'
 });
 
-/*
-bookingApp.all('/*', function (request, response, next) {
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "X-Requested-With");
-        response.header("Access-Control-Allow-Methods", "GET, POST", "PUT", "DELETE");
-        next();
-
-    });
-*/
 
 bookingApp.controller('myAppController',function($scope){
   $scope.title='BookMyTicket';
@@ -70,7 +65,7 @@ bookingApp.controller('searchCity',function($scope){
 
 bookingApp.controller('searchCinemas',function($scope,$http,ApiEndpoint){
    $http({
-      url:ApiEndpoint.url+"/place/nearbysearch/json?&location=12.971599,77.594563&radius=50000&types=movie_theater&key=AIzaSyB_MWaVyfMisy4elEy-vCjqTQYpbikFw1A"+"&callback=JSON_CALLBACK",
+      url:ApiEndpoint.url+"&location="+ApiEndpoint.selected_location_coordinates+"&radius="+ApiEndpoint.selected_radius+"&types="+ApiEndpoint.selected_types+"&key="+ApiEndpoint.key+"&callback=JSON_CALLBACK",
       method:'get'
    }).success(function(response) {
       console.log(response.results);
