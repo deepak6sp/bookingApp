@@ -1,0 +1,19 @@
+<label class="item item-input item-select">
+	<div class="input-label">
+		Select Language
+	</div>
+	<select>
+		<option>English</option>
+		<option selected>Hindi</option>
+		<option>Kannada</option>
+	</select>
+</label>
+
+<label class="item item-input">
+	<input type="text" placeholder="Search movie or actor name ">
+</label>
+<ion-list ng-init="movies=['uppi2','san andreas','banjarangi bhai jan']">
+	<ion-radio ng-repeat="movie in movies">
+		{{movie}}
+	</ion-radio>
+</ion-list>

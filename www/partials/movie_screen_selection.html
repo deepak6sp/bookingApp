@@ -1,0 +1,12 @@
+<ion-content >
+    <label class="item item-input" ng-controller="searchCity">
+		<input type="text" id="autocomplete" placeholder="Search city"/>
+	</label>
+	<ion-list ng-controller="searchCinemas">
+		<ion-radio ng-repeat="theater in movie_theaters">
+			<strong>{{theater.name}}</strong> - {{theater.vicinity}}
+		</ion-radio> 
+	</ion-list>
+	
+	
+</ion-content>
