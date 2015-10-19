@@ -41,11 +41,15 @@ bookingApp.constant('ApiEndpoint', {
 });
 
 
-bookingApp.controller('myAppController',function($scope){
+bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate){
   $scope.title='BookMyTicket';
   $scope.goBack = function () {
       window.history.back();
   };
+   $scope.toggle_left = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+
 });
 
 
