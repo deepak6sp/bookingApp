@@ -53,9 +53,9 @@ bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate){
 });
 
 
-bookingApp.controller('searchCity',function($scope){
+bookingApp.controller('searchCity',['$scope',function($scope){
     var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(20.59368,78.96288),
+      new google.maps.LatLng(20.59368,78.96288), // this is country specific altitudes
       new google.maps.LatLng(20.59368,78.96288)
     );
     var autocompleteText = document.getElementById('autocomplete');
@@ -64,8 +64,15 @@ bookingApp.controller('searchCity',function($scope){
       types: ['(cities)'],
       componentRestrictions: {country: 'in'}
     };
-    var autocomplete = new google.maps.places.Autocomplete(autocompleteText,options);
-});
+    new google.maps.places.Autocomplete(autocompleteText,options);
+
+    $scope.selected_city =function(){
+      $scope.input_value = document.getElementById("autocomplete").value;
+      console.log($scope.input_value);
+    }
+
+}]);
+
 
 bookingApp.controller('searchCinemas',function($scope,$http,ApiEndpoint){
    $http({
