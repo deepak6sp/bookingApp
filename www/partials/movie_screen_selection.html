@@ -2,9 +2,12 @@
     <label class="item item-input" ng-controller="searchCity">
 		<input type="text" id="autocomplete" placeholder="Search city"></input>	
 	</label>
-	<a ng-controller="searchCity" type="hidden" class="button button-block button-positive" ng-click="selected_city();" data-tap-disabled="false">
+	<!--
+	<a ng-controller="searchCity" type="text" class="button button-block button-positive" ng-click="selected_city();" data-tap-disabled="false">
 		    Search 
 	</a>
+	-->
+	<div id="lang_lat"></div>
 	<ion-list ng-controller="searchCinemas">
 		<ion-radio ng-repeat="theater in movie_theaters">
 			<strong>{{theater.name}}</strong> - {{theater.vicinity}}
