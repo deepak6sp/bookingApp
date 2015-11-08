@@ -1,18 +1,10 @@
-<ion-content >
-    <label class="item item-input" ng-controller="searchCity">
+<ion-content ng-controller="movie_sreeen_selection" >
+    <label class="item item-input" style="margin-bottom:100px;">
 		<input type="text" id="autocomplete" placeholder="Search city"></input>	
 	</label>
-	<!--
-	<a ng-controller="searchCity" type="text" class="button button-block button-positive" ng-click="selected_city();" data-tap-disabled="false">
-		    Search 
-	</a>
-	-->
-	<div id="lang_lat"></div>
-	<ion-list ng-controller="searchCinemas">
+	<ion-list >
 		<ion-radio ng-repeat="theater in movie_theaters">
 			<strong>{{theater.name}}</strong> - {{theater.vicinity}}
 		</ion-radio> 
-	</ion-list>
-	
-	
+	</ion-list>	
 </ion-content>

@@ -14,7 +14,7 @@ bookingApp.config(function($stateProvider,$urlRouterProvider){
 			.state('movie_screen_selection',{
 				url:"/movie_screen_selection",
 				templateUrl:'partials/movie_screen_selection.html',
-				controller: 'myAppController'
+				controller: 'movie_sreeen_selection'
 			})
 			.state('movie_selection',{
 				url:"/movie_selection",

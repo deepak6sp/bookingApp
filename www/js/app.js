@@ -52,25 +52,8 @@ bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate){
 
 });
 
-bookingApp.factory('share_location_coordinates_service',function(){
-   var lat_lang_List = [];
 
-  var add_lat_lang = function(newObj) {
-      lat_lang_List.push(newObj);
-      
-  };
-
-  var get_lat_lang = function(){
-      return lat_lang_List;
-  };
-
-  return {
-    add_lat_lang: add_lat_lang,
-    get_lat_lang: get_lat_lang
-  };
-});
-
-bookingApp.controller('searchCity',function($scope,share_location_coordinates_service){
+bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint){
     var defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(20.59368,78.96288), // this is country specific altitudes
       new google.maps.LatLng(20.59368,78.96288)
@@ -83,35 +66,29 @@ bookingApp.controller('searchCity',function($scope,share_location_coordinates_se
     };
     var autocomplete = new google.maps.places.Autocomplete(autocompleteText,options);
     var selected_location_coordinates_latlong="";
+    var latlong = "";
     autocomplete.addListener('place_changed', function() {
          var place = autocomplete.getPlace();
-         //console.log(place);
-         console.log("place lat="+ place.geometry.location);
+         console.log("place lat="+ place.geometry.location.lat());
          //console.log("place id = " + place.place_id);
-         latlong = place.geometry.location; // getting the co-ordinates for the location
-         $scope.assign_lat_long(latlong);
-    }); 
-    $scope.assign_lat_long = function(selected_location_coordinates_latlong){    
-      //alert("place lat2="+selected_location_coordinates_latlong);
-      //$scope.selected_location_coordinates_latlong = selected_location_coordinates_latlong;
-      share_location_coordinates_service.add_lat_lang(selected_location_coordinates_latlong);
-
-    }
-});
-
-
-bookingApp.controller('searchCinemas',function($scope,$http,ApiEndpoint,share_location_coordinates_service){
-  //alert(selected_location_coordinates_latlong);
-  $scope.products = share_location_coordinates_service.get_lat_lang();
-   $http({
-      url:ApiEndpoint.url+"&location="+ApiEndpoint.selected_location_coordinates+"&radius="+ApiEndpoint.selected_radius+"&types="+ApiEndpoint.selected_types+"&key="+ApiEndpoint.key+"&callback=JSON_CALLBACK",
-      method:'get'
-   }).success(function(response) {
-      console.log(response.results);
-      $scope.movie_theaters= response.results;
-    }).error(function(data, status, headers, config) {
-      $scope.isLoaderOn = false;
-      $scope.isError = true;
-      console.log('Could Not Connect to Server');
+         geo_lat = place.geometry.location.lat(); // getting the co-ordinates for the location
+         geo_lng = place.geometry.location.lng();
+         $scope.callApi(geo_lat,geo_lng);
     });
+
+    $scope.callApi = function(geo_lat,geo_lng){
+      var selected_location_coordinates = geo_lat+','+geo_lng;
+      var selected_url = ApiEndpoint.url+"&location="+selected_location_coordinates+"&radius="+ApiEndpoint.selected_radius+"&types="+ApiEndpoint.selected_types+"&key="+ApiEndpoint.key+"&callback=JSON_CALLBACK";
+        $http({
+          url:selected_url,
+          method:'get'
+        }).success(function(response) {
+          console.log(response.results);
+          $scope.movie_theaters= response.results;
+        }).error(function(data, status, headers, config) {
+          $scope.isLoaderOn = false;
+          $scope.isError = true;
+          console.log('Could Not Connect to Server');
+        });
+    }
 });
