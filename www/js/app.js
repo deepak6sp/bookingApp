@@ -35,7 +35,7 @@ bookingApp.config(['$httpProvider', function($httpProvider) {
 bookingApp.constant('ApiEndpoint', {
   url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?',
   selected_location_coordinates:'12.971599,77.594563',
-  selected_radius:'50000',
+  selected_radius:'5000',
   selected_types:'movie_theater',
   key:'AIzaSyB_MWaVyfMisy4elEy-vCjqTQYpbikFw1A'
 });
