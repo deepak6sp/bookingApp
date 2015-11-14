@@ -16,13 +16,27 @@
 
 
 // highlight this file 
-highlight_file(__FILE__);print '<hr>'; 
+//highlight_file(__FILE__);print '<hr>'; 
+//echo $_POST["selected_place_name"];
+$data = array();
+$_POST = json_decode(file_get_contents('php://input'), true);
+//echo "place name is ".$_POST["selected_place_name"];
 
-require_once('simple_html_dom.phps'); 
+require_once('simple_html_dom.php'); 
 
-$html = new simple_html_dom(); 
-$html->load_file('http://www.google.nl/movies?mid=&hl=en&near=1400AB'); 
+$html = new simple_html_dom();
+$html->load_file("http://www.google.com.au/movies?near=".$_POST["selected_place_name"]."&start=0");
 
+
+foreach($html->find('#movie_results .theater') as $div) {
+  	$data[] = $div->find('h2 a',0)->innertext;
+  	$data[] = $div->find('.info',0)->innertext;
+  	//address = array_push($data,$div->find('.info',0)->innertext);
+  	//array_push($data,$div->find('h2 a',0)->innertext); 
+  	array_push($response,$data);
+}
+echo json_encode($response);
+/*
 print '<pre>'; 
 foreach($html->find('#movie_results .theater') as $div) { 
 
@@ -38,6 +52,7 @@ foreach($html->find('#movie_results .theater') as $div) {
 } 
          
 $html->clear(); 
+*/
 
 
 ?>

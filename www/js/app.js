@@ -69,13 +69,34 @@ bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint
     var latlong = "";
     autocomplete.addListener('place_changed', function() {
          var place = autocomplete.getPlace();
-         console.log("place lat="+ place.geometry.location.lat());
-         //console.log("place id = " + place.place_id);
-         geo_lat = place.geometry.location.lat(); // getting the co-ordinates for the location
-         geo_lng = place.geometry.location.lng();
-         $scope.callApi(geo_lat,geo_lng);
+         //console.log("place lat="+ place.geometry.location.lat());
+         selected_place_name = place.name;
+         $scope.callApi(selected_place_name);
     });
+    $scope.callApi = function(slected_place_name){
+        var request = $http({
+          method : "post",
+          url:"php_files/index.php",
+          data: {selected_place_name : selected_place_name},      
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
 
+        request.success(function(response){
+          alert(response);
+          $scope.theaters = response;
+          //alert($scope.theaters);
+        });
+        request.error(function(response, status, headers, config) {
+          $scope.isLoaderOn = false;
+          $scope.isError = true;
+          alert('Could Not Connect to Server');
+        });
+    }
+
+
+    /*
+
+     function to retrieve theatre list using google api
     $scope.callApi = function(geo_lat,geo_lng){
       var selected_location_coordinates = geo_lat+','+geo_lng;
       var selected_url = ApiEndpoint.url+"&location="+selected_location_coordinates+"&radius="+ApiEndpoint.selected_radius+"&types="+ApiEndpoint.selected_types+"&key="+ApiEndpoint.key+"&callback=JSON_CALLBACK";
@@ -91,4 +112,5 @@ bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint
           console.log('Could Not Connect to Server');
         });
     }
+    */
 });
