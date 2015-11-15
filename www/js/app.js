@@ -82,10 +82,11 @@ bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint
         });
 
         request.success(function(response){
-          alert(response);
-          $scope.theaters = response;
+          console.log(response);
+          $scope.results= response;
           //alert($scope.theaters);
         });
+
         request.error(function(response, status, headers, config) {
           $scope.isLoaderOn = false;
           $scope.isError = true;

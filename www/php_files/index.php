@@ -19,6 +19,7 @@
 //highlight_file(__FILE__);print '<hr>'; 
 //echo $_POST["selected_place_name"];
 $data = array();
+$theater_venue_results = array();
 $_POST = json_decode(file_get_contents('php://input'), true);
 //echo "place name is ".$_POST["selected_place_name"];
 
@@ -27,15 +28,13 @@ require_once('simple_html_dom.php');
 $html = new simple_html_dom();
 $html->load_file("http://www.google.com.au/movies?near=".$_POST["selected_place_name"]."&start=0");
 
-
+$strip_selected_place_name = ", India";
 foreach($html->find('#movie_results .theater') as $div) {
-  	$data[] = $div->find('h2 a',0)->innertext;
-  	$data[] = $div->find('.info',0)->innertext;
-  	//address = array_push($data,$div->find('.info',0)->innertext);
-  	//array_push($data,$div->find('h2 a',0)->innertext); 
-  	array_push($response,$data);
+  	$data['theater_name'] = $div->find('h2 a',0)->innertext;
+  	$data['address'] = strstr($div->find('.info',0)->innertext,$strip_selected_place_name,true);
+  	array_push($theater_venue_results,$data);
 }
-echo json_encode($response);
+echo json_encode($theater_venue_results);
 /*
 print '<pre>'; 
 foreach($html->find('#movie_results .theater') as $div) { 

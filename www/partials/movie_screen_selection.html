@@ -1,10 +1,14 @@
 <ion-content ng-controller="movie_sreeen_selection" >
-    <label class="item item-input" style="margin-bottom:50px;">
-		<input type="text" id="autocomplete" placeholder="Search city"></input>	
+    <label class="item item-input">
+		<input type="text" id="autocomplete" placeholder="type city"></input>
+	</label>
+	<label class="item item-input" style="margin-bottom:50px;">
+		<input  type="text" placeholder="Search by theater name or address" ng-model="search_theater_text"></input>
 	</label>
 	<ion-list >
-		<ion-radio ng-repeat="theater in theaters">
-			<strong>{{theater}}</strong>
+		<ion-radio ng-repeat="theater in results | filter:search_theater_text">
+			<strong>{{theater.theater_name}}</strong><br>
+			<p>{{theater.address}}</p>
 		</ion-radio> 
 	</ion-list>	
 </ion-content>
