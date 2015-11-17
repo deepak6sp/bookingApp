@@ -41,7 +41,7 @@ bookingApp.constant('ApiEndpoint', {
 });
 
 
-bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate){
+bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate,$ionicPopup){
   $scope.title='BookMyTicket';
   $scope.goBack = function () {
       window.history.back();
@@ -49,8 +49,32 @@ bookingApp.controller('myAppController',function($scope,$ionicSideMenuDelegate){
    $scope.toggle_left = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };
+  $scope.select_location = function() {
+    $scope.data = {}
+    var myPopup = $ionicPopup.show({
+      template: '<select ng-model="mySelect" ng-change="showSelectValue(mySelect)"><option>Bangalore</option><option>Lucknow</option></select>',
+      title: 'Select city',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Save</b>',
+          type: 'button-positive',
+          onTap: function(e) {         
+            console.log('location saved');
+          }
+        }
+      ]
+    });
+  }
+  
+  $scope.showSelectValue = function(mySelect) {
+    // get selected location and process ... 
+    alert("you have selected "+mySelect);
+  }
 
 });
+
 
 
 bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint){
@@ -71,7 +95,7 @@ bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint
          var place = autocomplete.getPlace();
          //console.log("place lat="+ place.geometry.location.lat());
          selected_place_name = place.name;
-         $scope.callApi(selected_place_name);
+         $scope.callApi(selected_place_name); 
     });
     $scope.callApi = function(slected_place_name){
         var request = $http({
@@ -114,4 +138,5 @@ bookingApp.controller('movie_sreeen_selection',function($scope,$http,ApiEndpoint
         });
     }
     */
+    
 });
